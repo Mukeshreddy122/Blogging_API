@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -29,11 +30,11 @@ public class UserController {
         return new ResponseEntity<>(updatedUser,HttpStatus.OK);
     }
 //    DELETE-delete the existing user
-//@DeleteMapping("/{userId}")
-//public ResponseEntity<UserDto> deleteUser(@PathVariable("userId") Integer userId){
-//        ResponseEntity<> user =this.userService.deleteUser(userId);
-//        return  user;
-//}
+@DeleteMapping("/{userId}")
+public ResponseEntity<?> deleteUser(@PathVariable("userId") Integer userId){
+        this.deleteUser(userId);
+        return  new ResponseEntity(Map.of("Message","User deleted Successfully "),HttpStatus.OK);
+}
 //    GET-get the user by ID
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getUserById(@PathVariable("userId") Integer userId){

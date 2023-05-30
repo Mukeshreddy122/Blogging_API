@@ -6,6 +6,7 @@ import com.techie.blog.payloads.UserDto;
 import com.techie.blog.repositories.UserRepo;
 import com.techie.blog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserService {
         User user=this.userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User","id",userId));
         return this.userToDto(user);
     }
+
 
     @Override
     public List<UserDto> getAllUsers() {
