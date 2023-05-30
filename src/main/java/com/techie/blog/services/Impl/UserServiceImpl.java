@@ -5,6 +5,7 @@ import com.techie.blog.exceptions.ResourceNotFoundException;
 import com.techie.blog.payloads.UserDto;
 import com.techie.blog.repositories.UserRepo;
 import com.techie.blog.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private ModelMapper modelMapper;
     @Override
     public UserDto createUser(UserDto userdto) {
         User user=this.dtoToUser(userdto);
@@ -55,21 +58,17 @@ public class UserServiceImpl implements UserService {
         this.userRepo.delete(user);
     }
     private User dtoToUser(UserDto userDto){
-        User newUser=new User();
-        newUser.setId(userDto.getId());
-        newUser.setName(userDto.getName());
-        newUser.setEmail(userDto.getEmail());
-        newUser.setPassword(userDto.getPassword());
-        newUser.setAbout(userDto.getAbout());
+        User newUser=this.modelMapper.map(userDto,User.class);
         return newUser;
+//        newUser.setId(userDto.getId());
+//        newUser.setName(userDto.getName());
+//        newUser.setEmail(userDto.getEmail());
+//        newUser.setPassword(userDto.getPassword());
+//        newUser.setAbout(userDto.getAbout());
     }
     private UserDto userToDto(User user){
-        UserDto newUserDto=new UserDto();
-        newUserDto.setId(user.getId());
-        newUserDto.setName(user.getName());
-        newUserDto.setEmail(user.getEmail());
-        newUserDto.setPassword(user.getPassword());
-        newUserDto.setAbout(user.getAbout());
+        UserDto newUserDto=this.modelMapper.map(user,UserDto.class);
+
         return newUserDto;
     }
 }

@@ -1,8 +1,10 @@
 package com.techie.blog.controllers;
 
 import com.techie.blog.entities.User;
+import com.techie.blog.payloads.ApiResponse;
 import com.techie.blog.payloads.UserDto;
 import com.techie.blog.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -19,21 +21,21 @@ public class UserController {
     private UserService userService;
 //  POST -create a new user
     @PostMapping("/")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
         UserDto createdUserDto=this.userService.createUser(userDto);
         return new ResponseEntity<>(createdUserDto, HttpStatus.CREATED);
     }
     //    PUT-update the existing user
     @PutMapping("/{userId}")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto, @PathVariable("userId") Integer userId){
+    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable("userId") Integer userId){
         UserDto updatedUser=this.userService.UpdateUser(userDto,userId);
         return new ResponseEntity<>(updatedUser,HttpStatus.OK);
     }
 //    DELETE-delete the existing user
 @DeleteMapping("/{userId}")
-public ResponseEntity<?> deleteUser(@PathVariable("userId") Integer userId){
-        this.deleteUser(userId);
-        return  new ResponseEntity(Map.of("Message","User deleted Successfully "),HttpStatus.OK);
+public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer userId){
+        this.userService.deleteUser(userId);
+        return  new ResponseEntity<ApiResponse>(new ApiResponse("user deleted successfully",true),HttpStatus.OK);
 }
 //    GET-get the user by ID
     @GetMapping("/{userId}")
