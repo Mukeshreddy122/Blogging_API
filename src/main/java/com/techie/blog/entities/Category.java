@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="categories")
@@ -18,5 +22,7 @@ public class Category {
     private String categoryTitle;
     @Column(name="description")
     private String categoryDescription;
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Post> posts =new ArrayList<>();
 
 }
