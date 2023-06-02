@@ -25,10 +25,8 @@ public class Post {
     @Column
     private Date createdDate;
     @ManyToOne
-    @Column(name = "category_id",nullable = false)
     @JoinColumn
     private Category category;
-    @Column(name = "user_id",nullable = false)
     @ManyToOne
     private  User user;
 
